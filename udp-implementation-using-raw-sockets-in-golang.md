@@ -30,7 +30,7 @@ Note only the superuser can create raw sockets, which makes sense to avoid snoop
 ## Golang Implementation
 Since UDP is such a simple protocol it's trivial to implement using raw sockets. However as mentioned above the kernel will not forward UDP or TCP packets to raw sockets so this is send only. Also this doesn’t add the UDP checksum as this is optional (though in practice obviously you'd usually want it).
 
-A very simple implementation in Golang is given in [udpsock.go](https://gist.github.com/dunstall/d9ae1b9bdb5eacc33a617e0d645f6edb).
+A very simple implementation in Golang is given in [udpsock.go](https://gist.github.com/andydunstall/d9ae1b9bdb5eacc33a617e0d645f6edb).
 
 This opens a raw socket with the IPv4 protocol fields set to UDP using `net.DialIP(“ip4:udp”, laddr, raddr)`, which internally uses `syscall.SOCK_RAW` to create a raw socket. If `laddr` is given this will call bind with that address, and if `raddr` is given will call connect with that address. As this implementation is send-only, bind is redundant so only `raddr` is given. This also specifies “ip4” rather than “ip” since this is incompatible with IPv6.
 

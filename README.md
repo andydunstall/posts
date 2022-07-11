@@ -1,2 +1,22 @@
 # Posts
 This contains a set of posts from my site at [andrewdunstall.com](https://www.andrewdunstall.com/). These are written to help my own understanding and practice writing.
+
+### [Tracing Redis Pub/Sub](https://github.com/andydunstall/posts/blob/main/tracing-redis-pub-sub.md)
+This post looks at how Redis pub/sub works under the hood by tracing
+`PUBLISH`, `SUBSCRIBE` and `UNSUBSCRIBE` calls on the redis server.
+
+### [Scuttlebutt](https://github.com/andydunstall/posts/blob/main/scuttlebutt.md)
+This is a high level overview of the Scuttlebutt gossip protocol as described
+in [van Renesse et al](https://www.cs.cornell.edu/home/rvr/papers/flowgossip.pdf).
+
+Scuttlebutt is an anti-entropy protocol, which gossip information around
+until its made obsolete by newer information.
+
+### [UDP Implementation Using Raw Sockets in Golang](https://github.com/andydunstall/posts/blob/main/udp-implementation-using-raw-sockets-in-golang.md)
+This posts implements a write-only UDP ‘socket’ in Golang using raw sockets,
+which provide the application direct access to the IP layer.
+
+### [Implementing TD-Gammon with Keras](https://github.com/andydunstall/posts/blob/main/implementing-td-gammon-with-keras.md)
+TD-Gammon is an artificial neural network, trained with TD(λ), that learns to play Backgammon by self-play.
+
+This post implements TD-Gammon 0.0 in Python using Keras and Tensorflow.

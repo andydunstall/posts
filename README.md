@@ -1,5 +1,10 @@
 # Posts
-This contains a set of posts from my site at [andrewdunstall.com](https://www.andrewdunstall.com/). These are written to help my own understanding and practice writing.
+This contains a set of posts from my site at [andrewdunstall.com](https://www.andrewdunstall.com/).
+These are written to help my own understanding and practice writing.
+
+### [libuv: Under the hood](https://github.com/andydunstall/posts/blob/main/libuv-under-the-hood.md)
+This post looks at how [libuv](https://libuv.org/) works under the hood, tracing
+some of the key functions in the C implementation.
 
 ### [Tracing Redis Pub/Sub](https://github.com/andydunstall/posts/blob/main/tracing-redis-pub-sub.md)
 This post looks at how Redis pub/sub works under the hood by tracing

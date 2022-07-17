@@ -1,0 +1,188 @@
+$ gdb objs/nginx
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04.1) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from objs/nginx...
+(gdb) set follow-fork-mode child
+(gdb) b ngx_epoll_init
+Breakpoint 1 at 0x436cf: file src/event/modules/ngx_epoll_module.c, line 324.
+(gdb) b ngx_open_listening_sockets
+Breakpoint 2 at 0x2a39c: file src/core/ngx_connection.c, line 408.
+(gdb) b ngx_epoll_add_event
+Breakpoint 3 at 0x4351f: file src/event/modules/ngx_epoll_module.c, line 580.
+(gdb) b ngx_linux_sendfile
+Breakpoint 4 at 0x4417c: file src/os/unix/ngx_linux_sendfile_chain.c, line 251.
+(gdb) r -p .
+Starting program: /home/dev/nginx/objs/nginx -p .
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 2, ngx_open_listening_sockets (cycle=cycle@entry=0x5555556405e0) at src/core/ngx_connection.c:408
+408	{
+(gdb) bt
+#0  ngx_open_listening_sockets (cycle=cycle@entry=0x5555556405e0) at src/core/ngx_connection.c:408
+#1  0x0000555555580f68 in ngx_init_cycle (old_cycle=0x7fffffffe350) at src/core/ngx_cycle.c:618
+#2  0x000055555556e9fe in main (argc=3, argv=<optimized out>) at src/core/nginx.c:292
+(gdb) c
+Continuing.
+2022/07/17 09:01:00 [notice] 2908#0: using the "epoll" event method
+2022/07/17 09:01:00 [notice] 2908#0: nginx/1.23.0
+2022/07/17 09:01:00 [notice] 2908#0: built by gcc 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)
+2022/07/17 09:01:00 [notice] 2908#0: OS: Linux 5.10.76-linuxkit
+2022/07/17 09:01:00 [notice] 2908#0: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/07/17 09:01:00 [notice] 2908#0: start worker processes
+[Attaching after Thread 0x7ffff7cd9740 (LWP 2908) fork to child process 2912]
+[New inferior 2 (process 2912)]
+[Detaching after fork from parent process 2908]
+2022/07/17 09:01:00 [notice] 2908#0: start worker process 2912
+[Inferior 1 (process 2908) detached]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[Switching to Thread 0x7ffff7cd9740 (LWP 2912)]
+
+Thread 2.1 "nginx" hit Breakpoint 1, ngx_epoll_init (cycle=0x5555556405e0, timer=0) at src/event/modules/ngx_epoll_module.c:324
+324	{
+(gdb) bt
+#0  ngx_epoll_init (cycle=0x5555556405e0, timer=0) at src/event/modules/ngx_epoll_module.c:324
+#1  0x000055555558dd9c in ngx_event_process_init (cycle=0x5555556405e0) at src/event/ngx_event.c:669
+#2  0x0000555555595e31 in ngx_worker_process_init (cycle=cycle@entry=0x5555556405e0, worker=<optimized out>)
+    at src/os/unix/ngx_process_cycle.c:902
+#3  0x0000555555595f80 in ngx_worker_process_cycle (cycle=0x5555556405e0, data=<optimized out>) at src/os/unix/ngx_process_cycle.c:706
+#4  0x000055555559462e in ngx_spawn_process (cycle=cycle@entry=0x5555556405e0,
+    proc=proc@entry=0x555555595f5c <ngx_worker_process_cycle>, data=data@entry=0x0, name=name@entry=0x5555555f02a3 "worker process",
+    respawn=respawn@entry=-3) at src/os/unix/ngx_process.c:199
+#5  0x0000555555595795 in ngx_start_worker_processes (cycle=cycle@entry=0x5555556405e0, n=1, type=type@entry=-3)
+    at src/os/unix/ngx_process_cycle.c:344
+#6  0x0000555555596726 in ngx_master_process_cycle (cycle=0x5555556405e0) at src/os/unix/ngx_process_cycle.c:130
+#7  0x000055555556ed11 in main (argc=3, argv=<optimized out>) at src/core/nginx.c:383
+(gdb) c
+Continuing.
+
+Thread 2.1 "nginx" hit Breakpoint 3, ngx_epoll_add_event (ev=0x555555660ec0, event=8193, flags=0)
+    at src/event/modules/ngx_epoll_module.c:580
+580	{
+(gdb) bt
+#0  ngx_epoll_add_event (ev=0x555555660ec0, event=8193, flags=0) at src/event/modules/ngx_epoll_module.c:580
+#1  0x000055555558e24b in ngx_event_process_init (cycle=0x5555556405e0) at src/event/ngx_event.c:908
+#2  0x0000555555595e31 in ngx_worker_process_init (cycle=cycle@entry=0x5555556405e0, worker=<optimized out>)
+    at src/os/unix/ngx_process_cycle.c:902
+#3  0x0000555555595f80 in ngx_worker_process_cycle (cycle=0x5555556405e0, data=<optimized out>) at src/os/unix/ngx_process_cycle.c:706
+#4  0x000055555559462e in ngx_spawn_process (cycle=cycle@entry=0x5555556405e0,
+    proc=proc@entry=0x555555595f5c <ngx_worker_process_cycle>, data=data@entry=0x0, name=name@entry=0x5555555f02a3 "worker process",
+    respawn=respawn@entry=-3) at src/os/unix/ngx_process.c:199
+#5  0x0000555555595795 in ngx_start_worker_processes (cycle=cycle@entry=0x5555556405e0, n=1, type=type@entry=-3)
+    at src/os/unix/ngx_process_cycle.c:344
+#6  0x0000555555596726 in ngx_master_process_cycle (cycle=0x5555556405e0) at src/os/unix/ngx_process_cycle.c:130
+#7  0x000055555556ed11 in main (argc=3, argv=<optimized out>) at src/core/nginx.c:383
+(gdb) c
+Continuing.
+
+Thread 2.1 "nginx" hit Breakpoint 3, ngx_epoll_add_event (ev=0x555555660f20, event=8193, flags=0)
+    at src/event/modules/ngx_epoll_module.c:580
+580	{
+(gdb) bt
+#0  ngx_epoll_add_event (ev=0x555555660f20, event=8193, flags=0) at src/event/modules/ngx_epoll_module.c:580
+#1  0x000055555559383a in ngx_add_channel_event (cycle=cycle@entry=0x5555556405e0, fd=<optimized out>, event=event@entry=8193,
+    handler=handler@entry=0x5555555952ad <ngx_channel_handler>) at src/os/unix/ngx_channel.c:233
+#2  0x0000555555595ef8 in ngx_worker_process_init (cycle=cycle@entry=0x5555556405e0, worker=<optimized out>)
+    at src/os/unix/ngx_process_cycle.c:938
+#3  0x0000555555595f80 in ngx_worker_process_cycle (cycle=0x5555556405e0, data=<optimized out>) at src/os/unix/ngx_process_cycle.c:706
+#4  0x000055555559462e in ngx_spawn_process (cycle=cycle@entry=0x5555556405e0,
+    proc=proc@entry=0x555555595f5c <ngx_worker_process_cycle>, data=data@entry=0x0, name=name@entry=0x5555555f02a3 "worker process",
+    respawn=respawn@entry=-3) at src/os/unix/ngx_process.c:199
+#5  0x0000555555595795 in ngx_start_worker_processes (cycle=cycle@entry=0x5555556405e0, n=1, type=type@entry=-3)
+    at src/os/unix/ngx_process_cycle.c:344
+#6  0x0000555555596726 in ngx_master_process_cycle (cycle=0x5555556405e0) at src/os/unix/ngx_process_cycle.c:130
+#7  0x000055555556ed11 in main (argc=3, argv=<optimized out>) at src/core/nginx.c:383
+(gdb) c
+Continuing.
+
+Thread 2.1 "nginx" hit Breakpoint 3, ngx_epoll_add_event (ev=0x555555660f80, event=8193, flags=2147483648)
+    at src/event/modules/ngx_epoll_module.c:580
+580	{
+(gdb) bt
+#0  ngx_epoll_add_event (ev=0x555555660f80, event=8193, flags=2147483648) at src/event/modules/ngx_epoll_module.c:580
+#1  0x000055555558e3f4 in ngx_handle_read_event (rev=rev@entry=0x555555660f80, flags=flags@entry=0) at src/event/ngx_event.c:275
+#2  0x00005555555a4797 in ngx_http_init_connection (c=0x7ffff7ca01d0) at src/http/ngx_http_request.c:368
+#3  0x000055555558ed8e in ngx_event_accept (ev=0x555555660ec0) at src/event/ngx_event_accept.c:313
+#4  0x0000555555597d24 in ngx_epoll_process_events (cycle=<optimized out>, timer=<optimized out>, flags=<optimized out>)
+    at src/event/modules/ngx_epoll_module.c:901
+#5  0x000055555558e32b in ngx_process_events_and_timers (cycle=cycle@entry=0x5555556405e0) at src/event/ngx_event.c:248
+#6  0x000055555559605a in ngx_worker_process_cycle (cycle=0x5555556405e0, data=<optimized out>) at src/os/unix/ngx_process_cycle.c:721
+#7  0x000055555559462e in ngx_spawn_process (cycle=cycle@entry=0x5555556405e0,
+    proc=proc@entry=0x555555595f5c <ngx_worker_process_cycle>, data=data@entry=0x0, name=name@entry=0x5555555f02a3 "worker process",
+    respawn=respawn@entry=-3) at src/os/unix/ngx_process.c:199
+#8  0x0000555555595795 in ngx_start_worker_processes (cycle=cycle@entry=0x5555556405e0, n=1, type=type@entry=-3)
+    at src/os/unix/ngx_process_cycle.c:344
+#9  0x0000555555596726 in ngx_master_process_cycle (cycle=0x5555556405e0) at src/os/unix/ngx_process_cycle.c:130
+#10 0x000055555556ed11 in main (argc=3, argv=<optimized out>) at src/core/nginx.c:383
+(gdb) c
+Continuing.
+
+Thread 2.1 "nginx" hit Breakpoint 4, ngx_linux_sendfile (size=69, file=0x555555646af0, c=0x7ffff7ca01d0)
+    at src/os/unix/ngx_linux_sendfile_chain.c:251
+251	    offset = file->file_pos;
+(gdb) bt
+#0  ngx_linux_sendfile (size=69, file=0x555555646af0, c=0x7ffff7ca01d0) at src/os/unix/ngx_linux_sendfile_chain.c:251
+#1  ngx_linux_sendfile_chain (c=0x7ffff7ca01d0, in=0x555555646d68, limit=2097152) at src/os/unix/ngx_linux_sendfile_chain.c:177
+#2  0x00005555555bfb9a in ngx_http_write_filter (r=0x555555645e00, in=<optimized out>) at src/http/ngx_http_write_filter_module.c:295
+#3  0x00005555555c0a5a in ngx_http_chunked_body_filter (r=0x555555645e00, in=0x7fffffffdc60)
+    at src/http/modules/ngx_http_chunked_filter_module.c:115
+#4  0x00005555555c2461 in ngx_http_gzip_body_filter (r=0x555555645e00, in=0x7fffffffdc60)
+    at src/http/modules/ngx_http_gzip_filter_module.c:309
+#5  0x00005555555c3340 in ngx_http_postpone_filter (r=0x555555645e00, in=0x7fffffffdc60)
+    at src/http/ngx_http_postpone_filter_module.c:91
+#6  0x00005555555c58ad in ngx_http_ssi_body_filter (r=0x555555645e00, in=<optimized out>)
+    at src/http/modules/ngx_http_ssi_filter_module.c:413
+#7  0x00005555555c7eab in ngx_http_charset_body_filter (r=0x555555645e00, in=0x7fffffffdc60)
+    at src/http/modules/ngx_http_charset_filter_module.c:557
+#8  0x00005555555ca297 in ngx_http_trailers_filter (r=0x555555645e00, in=0x7fffffffdc60)
+    at src/http/modules/ngx_http_headers_filter_module.c:264
+#9  0x00005555555724dd in ngx_output_chain (ctx=ctx@entry=0x555555647240, in=in@entry=0x7fffffffdc60)
+    at src/core/ngx_output_chain.c:70
+#10 0x00005555555cad59 in ngx_http_copy_filter (r=0x555555645e00, in=0x7fffffffdc60) at src/http/ngx_http_copy_filter_module.c:145
+#11 0x00005555555c1aed in ngx_http_range_body_filter (r=0x555555645e00, in=0x7fffffffdc60)
+    at src/http/modules/ngx_http_range_filter_module.c:638
+#12 0x00005555555a08bb in ngx_http_output_filter (r=r@entry=0x555555645e00, in=in@entry=0x7fffffffdc60)
+    at src/http/ngx_http_core_module.c:1867
+#13 0x00005555555cb644 in ngx_http_static_handler (r=0x555555645e00) at src/http/modules/ngx_http_static_module.c:280
+#14 0x00005555555a0d55 in ngx_http_core_content_phase (r=0x555555645e00, ph=0x55555565e740) at src/http/ngx_http_core_module.c:1268
+#15 0x000055555559b2a6 in ngx_http_core_run_phases (r=r@entry=0x555555645e00) at src/http/ngx_http_core_module.c:875
+#16 0x000055555559b34f in ngx_http_handler (r=r@entry=0x555555645e00) at src/http/ngx_http_core_module.c:858
+#17 0x00005555555a1c53 in ngx_http_internal_redirect (r=r@entry=0x555555645e00, uri=uri@entry=0x7fffffffded0,
+    args=args@entry=0x555555646148) at src/http/ngx_http_core_module.c:2550
+#18 0x00005555555cdc3f in ngx_http_index_handler (r=0x555555645e00) at src/http/modules/ngx_http_index_module.c:277
+#19 0x00005555555a0d55 in ngx_http_core_content_phase (r=0x555555645e00, ph=0x55555565e710) at src/http/ngx_http_core_module.c:1268
+#20 0x000055555559b2a6 in ngx_http_core_run_phases (r=r@entry=0x555555645e00) at src/http/ngx_http_core_module.c:875
+#21 0x000055555559b34f in ngx_http_handler (r=r@entry=0x555555645e00) at src/http/ngx_http_core_module.c:858
+#22 0x00005555555a3af0 in ngx_http_process_request (r=r@entry=0x555555645e00) at src/http/ngx_http_request.c:2094
+#23 0x00005555555a5f56 in ngx_http_process_request_headers (rev=rev@entry=0x555555660f80) at src/http/ngx_http_request.c:1496
+#24 0x00005555555a629e in ngx_http_process_request_line (rev=rev@entry=0x555555660f80) at src/http/ngx_http_request.c:1163
+#25 0x00005555555a67fa in ngx_http_wait_request_handler (rev=0x555555660f80) at src/http/ngx_http_request.c:501
+#26 0x0000555555597d24 in ngx_epoll_process_events (cycle=<optimized out>, timer=<optimized out>, flags=<optimized out>)
+    at src/event/modules/ngx_epoll_module.c:901
+#27 0x000055555558e32b in ngx_process_events_and_timers (cycle=cycle@entry=0x5555556405e0) at src/event/ngx_event.c:248
+#28 0x000055555559605a in ngx_worker_process_cycle (cycle=0x5555556405e0, data=<optimized out>) at src/os/unix/ngx_process_cycle.c:721
+#29 0x000055555559462e in ngx_spawn_process (cycle=cycle@entry=0x5555556405e0,
+    proc=proc@entry=0x555555595f5c <ngx_worker_process_cycle>, data=data@entry=0x0, name=name@entry=0x5555555f02a3 "worker process",
+    respawn=respawn@entry=-3) at src/os/unix/ngx_process.c:199
+#30 0x0000555555595795 in ngx_start_worker_processes (cycle=cycle@entry=0x5555556405e0, n=1, type=type@entry=-3)
+    at src/os/unix/ngx_process_cycle.c:344
+#31 0x0000555555596726 in ngx_master_process_cycle (cycle=0x5555556405e0) at src/os/unix/ngx_process_cycle.c:130
+#32 0x000055555556ed11 in main (argc=3, argv=<optimized out>) at src/core/nginx.c:383
+(gdb) c
+Continuing.
+127.0.0.1 - - [17/Jul/2022:09:01:16 +0000] "GET / HTTP/1.1" 200 69 "-" "curl/7.68.0"
+2022/07/17 09:01:20 [info] 2912#0: *1 client 127.0.0.1 closed keepalive connection

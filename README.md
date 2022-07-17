@@ -2,6 +2,11 @@
 This contains a set of posts from my site at [andrewdunstall.com](https://www.andrewdunstall.com/).
 These are written to help my own understanding and practice writing.
 
+### [Tracing NGINX: Requesting A Static File](https://github.com/andydunstall/posts/blob/main/tracing-nginx-requesting-a-static-file.md)
+This post looks at tracing the simplest NGINX operation, using NGINX as a web
+server to serve a static HTML file. I won't look at each function in depth but
+will try to give an overview.
+
 ### [libuv: Under the hood](https://github.com/andydunstall/posts/blob/main/libuv-under-the-hood.md)
 This post looks at how [libuv](https://libuv.org/) works under the hood, tracing
 some of the key functions in the C implementation.

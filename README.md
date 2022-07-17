@@ -15,6 +15,11 @@ some of the key functions in the C implementation.
 This post looks at how Redis pub/sub works under the hood by tracing
 `PUBLISH`, `SUBSCRIBE` and `UNSUBSCRIBE` calls on the redis server.
 
+### [Redis scripts do not expire keys atomically](https://ably.com/blog/redis-keys-do-not-expire-atomically)
+This was a post published at Ably about one of the first bugs I worked on there
+(I wrote a rough first draft describing the bug, then the content team at Ably
+wrote the final published article, which was of course much easier to read).
+
 ### [Scuttlebutt](https://github.com/andydunstall/posts/blob/main/scuttlebutt.md)
 This is a high level overview of the Scuttlebutt gossip protocol as described
 in [van Renesse et al](https://www.cs.cornell.edu/home/rvr/papers/flowgossip.pdf).

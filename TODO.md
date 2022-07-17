@@ -1,27 +1,37 @@
 # TODO
-A list of post ideas that would be interesting to research and write about.
+A list of post ideas that would be fun to research and write about.
 
-## Tracing
-To get an overview of a open source project tracing a few simple operations
-is quite interesting
-* ~~libuv~~ (see `libuv-under-the-hood.md`)
-* ~~Redis PUB/SUB~~ (see `tracing-redis-pub-sub.md`)
-* NGINX
-* Redpanda
-* etcd
-* Cassandra (started this but it's so coupled to netty it would really have just
-been a netty tutorial...)
+## OSS
+Looking at how some open source systems work internally (looking at the
+low level systems rather than application build ontop of them)
 
-## Papers
-Writing an overview of different papers is usually a useful way to study
-(such as `scuttlebutt.md` is an overview of [van Renesse et al](https://www.cs.cornell.edu/home/rvr/papers/flowgossip.pdf)).
-* Chord
-* Kafka
-* Cassandra
-* https://pdos.csail.mit.edu/6.824/schedule.html has a good list
+### Seastar
+Loads of interesting stuff to learn about here:
+* User space networking stack (DPDK, implementing TCP stack etc)
+* Shared nothing architecture (why its faster, how it works etc)
 
-## Other
-* how docker containers work (cgroups, namespaces etc)
-* how redis cluster works
-* memory caches - look at nginx `ngx_cacheline_size`, `ngx_pagesize` etc
-* how strace works
+### NGINX
+* how it keeps cachlines and pagesize for memory caches (`ngx_cacheline_size`, `ngx_pagesize`)
+
+### Linux
+Trying to find implementation of some specific functions (probably need to find
+more resources about how Linux works generally)
+* TCP buffering (SYN_RCVD queue, ESTABLISHED queue, connection in/out bufferes)
+* How epoll works
+
+### etcd
+* Trace PUT/GET (raft log etc)
+
+### libuv
+* How file system operations work (with blocking syscalls in thread pool)
+
+### tokio
+* Async runtime
+* Scheduler (good chance to learn about OS shedulers too)
+
+### Docker
+* how containers work (cgroups, namespaces etc)
+
+## General
+* how interprested languages work (js, python...)
+* how internet routing works (ISPs, BGP...) - networking tda ch5 has good intro
